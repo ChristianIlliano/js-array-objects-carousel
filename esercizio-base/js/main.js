@@ -1,3 +1,9 @@
+const carouselElem = document.querySelector(".my-carousel-images");
+const thumbContainer = document.querySelector(".my-thumbnails");
+
+let clicked = 0, orderCount = 0;
+let startPlay;
+
 const images = [
   {
     image: "img/01.webp",
@@ -25,3 +31,80 @@ const images = [
     text: "Marvel's Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.",
   },
 ];
+
+// const carouselCardContainer = document.querySelector("my-carousel-images");
+// images.forEach((curCard)) => {
+//   const carouselCard = `
+//   <div class="my-carousel-item active" carousel-item="1">
+//                   <img
+//                     class="img-fluid"
+//                     src="./${curCard.image}"
+//                     alt="Marvel's Spiderman Miles Morale picture"
+//                   />
+//                   <div class="item-description px-3">
+//                     <h2>${curCard.title}</h2>
+//                     <p>
+//                     ${curCard.text}
+//                     </p>
+//                   </div>
+//                 </div>
+//   `
+// }
+
+//Aggiungiamo gli item al carosello
+images.forEach((curObject) => {
+
+  carouselElem.innerHTML += `
+    <div class="my-carousel-item" carousel-item="1">
+      <img
+        class="img-fluid"
+        src="${curObject.image}"
+        alt="${curObject.title} picture"
+      />
+      <div class="item-description px-3">
+        <h2>${curObject.title}</h2>
+        <p>
+          ${curObject.text}
+        </p>
+      </div>
+    </div>
+  `;
+
+  thumbContainer.innerHTML += `
+    <img
+      class="img-fluid my-thumbnail"
+      src="${curObject.image}"
+      alt="${curObject.text} picture"
+    />
+  `
+});
+
+//Settiamo index active a tutti gli elementi
+const carouselItem = document.querySelectorAll(".my-carousel-item");
+let activeIndex = 0;
+
+carouselItem[activeIndex].classList.add("active");
+
+//button eventlistner
+const nextBtn = document
+  .querySelector(".my-next")
+  .addEventListener("click", showNext);
+
+const prevBtn = document
+  .querySelector(".my-previous")
+  .addEventListener("click", showPrev);
+
+const playBtn = document.getElementById("my-stop-button").addEventListener("click",  autoScroll)
+const invertOrderBtn = document.getElementById("my-order-button").addEventListener("click", invertOrder)
+
+const thumbElem = document.querySelectorAll(".my-thumbnail");
+thumbElem[activeIndex].classList.add("active")
+
+
+thumbElem.forEach((curThumb,index)=> {
+  curThumb.addEventListener("click", () => {
+    removeActive();
+    activeIndex = index;
+    addActive();
+  })
+})
